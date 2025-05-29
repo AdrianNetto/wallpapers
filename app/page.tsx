@@ -8,12 +8,12 @@ const ITEMS_PER_PAGE = 24
 export default async function Home({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ page?: string; search?: string } | undefined>
 }) {
-  const page =
-    typeof searchParams?.page === 'string' ? Number(searchParams.page) : 1
-  const search =
-    typeof searchParams?.search === 'string' ? searchParams.search : ''
+
+  const params = await searchParams
+  const page = params?.page ? Number(params.page) : 1
+  const search = params?.search ?? ''
 
   const wallpapers = await getAllWallpapers()
 

@@ -3,20 +3,16 @@ import Image from 'next/image'
 import { FiDownload, FiChevronLeft } from 'react-icons/fi'
 import Link from 'next/link'
 
-interface Params {
-  id: string
-}
-
 export async function generateStaticParams() {
   return Array.from({ length: 389 }, (_, i) => ({
     id: i.toString().padStart(5, '0'),
   }))
 }
 
-export default function WallpaperDetail({ params }: { params: Params }) {
-  const { id } = params
+export default async function WallpaperDetail({ params }: { params: { id: string } }) {
+  const paramsPromise = Promise.resolve(params);
+  const { id } = (await paramsPromise);
   const isValidId = /^\d{5}$/.test(id) && parseInt(id) <= 388
-
   if (!isValidId) {
     notFound()
   }
@@ -26,8 +22,6 @@ export default function WallpaperDetail({ params }: { params: Params }) {
     filename: `${id}.png`,
     url: `/images/${id}.png`,
   }
-
-  console.log('wallpaper', wallpaper)
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
@@ -56,13 +50,13 @@ export default function WallpaperDetail({ params }: { params: Params }) {
               <h2 className="text-2xl font-bold text-purple-300 font-mono">
                 {wallpaper.id}
               </h2>
-              <a
+              <Link
                 href={wallpaper.url}
                 download={wallpaper.filename}
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg transition-colors"
               >
                 <FiDownload /> Download HD
-              </a>
+              </Link>
             </div>
           </div>
         </div>
