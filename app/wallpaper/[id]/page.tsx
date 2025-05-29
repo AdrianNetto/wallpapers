@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { FiDownload, FiChevronLeft } from 'react-icons/fi'
 import Link from 'next/link'
+import { getWallpaperById } from '@/lib/wallpapers'
 
 export async function generateStaticParams() {
   return Array.from({ length: 389 }, (_, i) => ({
@@ -9,19 +10,15 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function WallpaperDetail({ params }: { params: { id: string } }) {
-  const paramsPromise = Promise.resolve(params);
-  const { id } = (await paramsPromise);
+export default async function WallpaperDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const isValidId = /^\d{5}$/.test(id) && parseInt(id) <= 388
   if (!isValidId) {
     notFound()
   }
 
-  const wallpaper = {
-    id,
-    filename: `${id}.png`,
-    url: `/images/${id}.png`,
-  }
+  const wallpaper = getWallpaperById(id)
+  if (!wallpaper) return notFound()
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">

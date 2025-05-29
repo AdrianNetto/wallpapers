@@ -26,3 +26,21 @@ export async function getAllWallpapers(): Promise<Wallpaper[]> {
       }
     })
 }
+
+export function getWallpaperById(id: string): { id: string; filename: string; url: string } | null {
+  const imagesDir = path.join(process.cwd(), 'public/images')
+
+  for (const ext of EXTENSIONS) {
+    const filename = `${id}.${ext}`
+    const fullPath = path.join(imagesDir, filename)
+
+    if (fs.existsSync(fullPath)) {
+      return {
+        id,
+        filename,
+        url: `/images/${filename}`,
+      }
+    }
+  }
+  return null
+}
