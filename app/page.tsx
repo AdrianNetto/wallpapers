@@ -79,18 +79,18 @@ export default async function Home({
         </div>
 
         {totalPages > 1 && (
-          <div className="flex justify-center mt-12 space-x-2">
+          <div className="flex flex-wrap justify-center mt-12 gap-2">
             {Array.from({ length: totalPages }, (_, i) => (
               <Link
-                key={i + 1}
-                href={`/?page=${i + 1}${search ? `&search=${search}` : ''}`}
-                className={`px-4 py-2 rounded-md font-medium ${
-                  page === i + 1
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
+          key={i + 1}
+          href={`/?page=${i + 1}${search ? `&search=${search}` : ''}`}
+          className={`px-3 py-2 rounded-md font-medium text-sm sm:px-4 sm:py-2 sm:text-base ${
+            page === i + 1
+              ? 'bg-purple-600 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+          }`}
               >
-                {i + 1}
+          {i + 1}
               </Link>
             ))}
           </div>
