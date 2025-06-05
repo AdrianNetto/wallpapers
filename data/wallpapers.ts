@@ -10,17 +10,17 @@ const RAW_BASE_URL = 'https://raw.githubusercontent.com/kitsunebishi/Wallpapers/
 
 async function fetchWallpapers(): Promise<Wallpaper[]> {
   const response = await fetch(GITHUB_API_URL);
+  if (!response.ok) throw new Error('Failed to fetch wallpapers');
+  
   const files = await response.json();
 
-  const wallpapers: Wallpaper[] = files
+  return files
     .filter((file: any) => /\.(png|jpe?g)$/i.test(file.name))
     .map((file: any, index: number) => ({
-      id: index.toString(),
+      id: index.toString().padStart(5, '0'),
       url: `${RAW_BASE_URL}${file.name}`,
     }));
-
-  return wallpapers;
 }
 
-export const wallpapers = await fetchWallpapers();
+export const wallpapersPromise = fetchWallpapers();
 export default fetchWallpapers;

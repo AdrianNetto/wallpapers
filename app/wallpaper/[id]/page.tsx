@@ -2,24 +2,25 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { FiDownload, FiChevronLeft } from 'react-icons/fi'
 import Link from 'next/link'
+import { wallpapersPromise } from '@/data/wallpapers'
 
 export async function generateStaticParams() {
-  return Array.from({ length: 389 }, (_, i) => ({
-    id: i.toString().padStart(5, '0'),
+  const wallpapers = await wallpapersPromise
+  return wallpapers.map(wallpaper => ({
+    id: wallpaper.id,
   }))
 }
 
-export default async function WallpaperDetail({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const isValidId = /^\d{5}$/.test(id) && parseInt(id) <= 388
+export default async function WallpaperDetail({ params }: { params: { id: string } }) {
+  const { id } = params
+  const wallpapers = await wallpapersPromise
+
+  const isValidId = /^\d{5}$/.test(id)
   if (!isValidId) {
     notFound()
   }
 
-  // Import wallpapers statically
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { wallpapers } = require('@/data/wallpapers')
-  const wallpaper = wallpapers.find((wp: { id: string }) => wp.id === id)
+  const wallpaper = wallpapers.find(wp => wp.id === id)
   
   if (!wallpaper) {
     notFound()
@@ -44,6 +45,7 @@ export default async function WallpaperDetail({ params }: { params: Promise<{ id
                 fill
                 className="object-contain"
                 priority
+                sizes="(max-width: 768px) 100vw, 80vw"
               />
             </div>
           </div>
@@ -54,7 +56,7 @@ export default async function WallpaperDetail({ params }: { params: Promise<{ id
               </h2>
               <Link
                 href={wallpaper.url}
-                download={wallpaper.id}
+                download={`wallpaper-${wallpaper.id}.jpg`}
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg transition-colors"
               >
                 <FiDownload /> Download HD

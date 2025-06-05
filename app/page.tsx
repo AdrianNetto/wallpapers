@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FiSearch } from 'react-icons/fi'
 import { Wallpaper } from '@/types/next'
+import { wallpapersPromise } from '@/data/wallpapers'
 
 const ITEMS_PER_PAGE = 24
 
@@ -15,9 +16,7 @@ export default async function Home({
   const page = params?.page ? Number(params.page) : 1
   const search = params?.search ?? ''
 
-const wallpapers = await import('@/data/wallpapers').then(
-  (mod) => mod.wallpapers
-)
+  const wallpapers = await wallpapersPromise;
 
   const filteredWallpapers = search
     ? wallpapers.filter((wp) => wp.id.includes(search))
