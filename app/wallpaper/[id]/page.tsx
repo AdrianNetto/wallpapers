@@ -16,10 +16,11 @@ export default async function WallpaperDetail({ params }: { params: Promise<{ id
     notFound()
   }
 
-  const wallpaper = await import('@/data/wallpapers').then(
-    (mod) => mod.wallpapers.find((wp) => wp.id === id)
-  )
-
+  // Import wallpapers statically
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { wallpapers } = require('@/data/wallpapers')
+  const wallpaper = wallpapers.find((wp: { id: string }) => wp.id === id)
+  
   if (!wallpaper) {
     notFound()
   }

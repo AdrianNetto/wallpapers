@@ -1,6 +1,11 @@
 'use client'
-import { Wallpaper } from '@/data/wallpapers'
 import { useEffect, useState } from 'react'
+
+type Wallpaper = {
+  id: string
+  filename: string
+  url: string
+}
 
 export const useWallpapers = () => {
   const [wallpapers, setWallpapers] = useState<Wallpaper[]>([])

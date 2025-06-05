@@ -1,8 +1,8 @@
-import { Wallpaper } from '@/data/wallpapers'
+import { Wallpapers } from '@/data/wallpapers'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default async function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
+export default async function WallpaperCard({ wallpaper }: { wallpaper: Wallpapers }) {
 
   return (
     <Link href={`/wallpaper/${wallpaper.id}`} passHref>

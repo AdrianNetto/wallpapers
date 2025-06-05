@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { FiSearch } from 'react-icons/fi'
+import { Wallpaper } from '@/types/next'
 
 const ITEMS_PER_PAGE = 24
 
@@ -14,9 +15,9 @@ export default async function Home({
   const page = params?.page ? Number(params.page) : 1
   const search = params?.search ?? ''
 
-  const wallpapers = await import('@/data/wallpapers').then(
-    (mod) => mod.wallpapers
-  )
+const wallpapers = await import('@/data/wallpapers').then(
+  (mod) => mod.wallpapers
+)
 
   const filteredWallpapers = search
     ? wallpapers.filter((wp) => wp.id.includes(search))
@@ -51,14 +52,14 @@ export default async function Home({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {paginatedWallpapers.map((wallpaper) => (
+            {paginatedWallpapers.map((wallpaper: Wallpaper) => (
             <Link
               key={wallpaper.id}
               href={`/wallpaper/${wallpaper.id}`}
               className="group relative overflow-hidden rounded-lg border-2 border-purple-600 hover:border-pink-500 transition-all duration-300 hover:scale-105"
             >
               <div className="aspect-video relative">
-                <Image
+              <Image
                   src={wallpaper.url}
                   alt={`Wallpaper ${wallpaper.id}`}
                   fill
