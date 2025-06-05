@@ -2,7 +2,8 @@ import { Wallpaper } from '@/data/wallpapers'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
+export default async function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
+
   return (
     <Link href={`/wallpaper/${wallpaper.id}`} passHref>
       <div className="group cursor-pointer">

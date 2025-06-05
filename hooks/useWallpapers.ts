@@ -1,6 +1,6 @@
 'use client'
+import { Wallpaper } from '@/data/wallpapers'
 import { useEffect, useState } from 'react'
-import { Wallpaper } from '@/types/wallpaper'
 
 export const useWallpapers = () => {
   const [wallpapers, setWallpapers] = useState<Wallpaper[]>([])
@@ -14,7 +14,7 @@ export const useWallpapers = () => {
         const loadedWallpapers = Array.from(
           { length: totalWallpapers },
           (_, i) => ({
-            id: i + 1,
+            id: String(i + 1),
             filename: `wallpaper${i + 1}.png`,
             url: `/wallpapers/wallpaper${i + 1}.png`,
           })

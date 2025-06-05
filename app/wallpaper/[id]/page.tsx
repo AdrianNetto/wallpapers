@@ -12,7 +12,6 @@ export async function generateStaticParams() {
 export default async function WallpaperDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const isValidId = /^\d{5}$/.test(id) && parseInt(id) <= 388
-
   if (!isValidId) {
     notFound()
   }
