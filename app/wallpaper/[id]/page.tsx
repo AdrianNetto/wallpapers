@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { FiDownload, FiChevronLeft } from 'react-icons/fi'
 import Link from 'next/link'
-import { getWallpaperById } from '@/lib/wallpapers'
 
 export async function generateStaticParams() {
   return Array.from({ length: 389 }, (_, i) => ({
@@ -13,12 +12,18 @@ export async function generateStaticParams() {
 export default async function WallpaperDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const isValidId = /^\d{5}$/.test(id) && parseInt(id) <= 388
+
   if (!isValidId) {
     notFound()
   }
 
-  const wallpaper = getWallpaperById(id)
-  if (!wallpaper) return notFound()
+  const wallpaper = await import('@/data/wallpapers').then(
+    (mod) => mod.wallpapers.find((wp) => wp.id === id)
+  )
+
+  if (!wallpaper) {
+    notFound()
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
@@ -49,7 +54,7 @@ export default async function WallpaperDetail({ params }: { params: Promise<{ id
               </h2>
               <Link
                 href={wallpaper.url}
-                download={wallpaper.filename}
+                download={wallpaper.id}
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg transition-colors"
               >
                 <FiDownload /> Download HD

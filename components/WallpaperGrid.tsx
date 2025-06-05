@@ -1,4 +1,4 @@
-import { Wallpaper } from '@/types/wallpaper'
+import { Wallpaper } from '@/data/wallpapers'
 import dynamic from 'next/dynamic'
 
 const WallpaperCard = dynamic(() => import('./WallpaperCard'), {
@@ -7,11 +7,7 @@ const WallpaperCard = dynamic(() => import('./WallpaperCard'), {
   ),
 })
 
-interface WallpaperGridProps {
-  wallpapers: Wallpaper[]
-}
-
-export default function WallpaperGrid({ wallpapers }: WallpaperGridProps) {
+export default function WallpaperGrid({ wallpapers }: { wallpapers: Wallpaper[] }) {
   if (wallpapers.length === 0) {
     return (
       <div className="text-center py-12">
@@ -22,8 +18,8 @@ export default function WallpaperGrid({ wallpapers }: WallpaperGridProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {wallpapers.map((wallpaper) => (
-        <WallpaperCard key={wallpaper.id} wallpaper={wallpaper} />
+      {wallpapers.map((wallpaper: Wallpaper) => (
+      <WallpaperCard key={wallpaper.id} wallpaper={wallpaper} />
       ))}
     </div>
   )

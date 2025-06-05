@@ -1,12 +1,8 @@
+import { Wallpaper } from '@/data/wallpapers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Wallpaper } from '@/types/wallpaper'
 
-interface WallpaperCardProps {
-  wallpaper: Wallpaper
-}
-
-export default function WallpaperCard({ wallpaper }: WallpaperCardProps) {
+export default function WallpaperCard({ wallpaper }: { wallpaper: Wallpaper }) {
   return (
     <Link href={`/wallpaper/${wallpaper.id}`} passHref>
       <div className="group cursor-pointer">
@@ -23,7 +19,7 @@ export default function WallpaperCard({ wallpaper }: WallpaperCardProps) {
           />
         </div>
         <p className="mt-2 text-sm text-gray-600 truncate">
-          {wallpaper.filename}
+          {wallpaper.id}
         </p>
       </div>
     </Link>
