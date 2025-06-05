@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { FiDownload, FiChevronLeft } from 'react-icons/fi'
+import { FiChevronLeft } from 'react-icons/fi'
 import Link from 'next/link'
 import { wallpapersPromise } from '@/data/wallpapers'
+import DownloadButton from '@/components/DownloadButton'
 
 export async function generateStaticParams() {
   const wallpapers = await wallpapersPromise
@@ -54,13 +55,7 @@ export default async function WallpaperDetail({ params }: {params: Promise<{ id:
               <h2 className="text-2xl font-bold text-purple-300 font-mono">
                 {wallpaper.id}
               </h2>
-              <Link
-                href={wallpaper.url}
-                download={`wallpaper-${wallpaper.id}.jpg`}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-lg transition-colors"
-              >
-                <FiDownload /> Download HD
-              </Link>
+              <DownloadButton wallpaper={wallpaper}/>
             </div>
           </div>
         </div>
