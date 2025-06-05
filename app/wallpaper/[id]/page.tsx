@@ -6,13 +6,13 @@ import { wallpapersPromise } from '@/data/wallpapers'
 
 export async function generateStaticParams() {
   const wallpapers = await wallpapersPromise
-  return wallpapers.map(wallpaper => ({
+  return wallpapers.map((wallpaper) => ({
     id: wallpaper.id,
   }))
 }
 
-export default async function WallpaperDetail({ params }: { params: { id: string } }) {
-  const { id } = params
+export default async function WallpaperDetail({ params }: {params: Promise<{ id: string }>}) {
+  const { id } = await params
   const wallpapers = await wallpapersPromise
 
   const isValidId = /^\d{5}$/.test(id)
@@ -20,8 +20,8 @@ export default async function WallpaperDetail({ params }: { params: { id: string
     notFound()
   }
 
-  const wallpaper = wallpapers.find(wp => wp.id === id)
-  
+  const wallpaper = wallpapers.find((wp) => wp.id === id)
+
   if (!wallpaper) {
     notFound()
   }
